@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
+    <script src="zone-entry.js"></script>
+    <title>Polygonal zones: Edit zones</title>
+
+    <style>
+        /* Dark mode */
+        :root {
+            --sidebar-color: #ffffff;
+            --save-button-color: #000000;
+            --text-color: #000000;
+        }
+
+
+        body {
+            margin: 0;
+            padding: 0;
+
+
+            font-family: Arial, sans-serif;
+            color: var(--text-color);
+        }
+
+        .body {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .sidebar {
+            background: var(--sidebar-color);
+
+            display: flex;
+            flex-direction: column;
+
+            padding: 10px 20px;
+            max-height: 100vh;
+        }
+
+
+        .save-btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+
+            font-size: 1.2em;
+
+            align-self: end;
+            background-color: black;
+            color: white;
+            border: none;
+        }
+
+        .sub-title {
+            font-size: 1.2em;
+            margin-top: 0;
+        }
+
+        .title {
+            margin-bottom: 0;
+        }
+
+        .center  {
+            height: min(100%, calc(100vh - 20px - 280px - 43px - 20px));
+        }
+
+        .center h2 {
+            font-size: 1.5em;
+            margin-top: 20px;
+            margin-bottom: 20px;
+
+        }
+
+        .center .zone-list {
+            overflow-y: scroll;
+            height: calc(100% - 40px - 3em);
+        }
+
+        .save-btn {
+            transition: 0.3s;
+        }
+
+        .save-btn.success {
+            background-color: green !important;
+        }
+
+        .save-btn.error {
+            background-color: red !important;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="body">
+    <div id="map"></div>
+    <div class="sidebar">
+        <div class="header">
+            <h1 class="title">Zone editor</h1>
+            <p class="sub-title"> Draw zones on the map. </p>
+            <p>
+                To edit the zone press the edit button. to delete a zone you can use the delete button on the left side
+                and select the zones you want to delete
+            </p>
+            <p>
+                Once you have finished editing the zones you can press the save button on the bottom of the page to save
+                the changes.
+            </p>
+        </div>
+
+
+        <div class="center">
+            <h2> Zones </h2>
+            <div class="zone-list"></div>
+        </div>
+
+        <button class="save-btn" onclick="save_zones()">
+            Save
+        </button>
+
+    </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
