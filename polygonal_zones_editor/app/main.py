@@ -28,8 +28,8 @@ def allowed_ip(request) -> bool:
     return request.client.host == '172.30.32.2'
 
 async def static_index(request):
-    if not allowed_ip(request):
-        return PlainTextResponse('not allowed', status_code=403)
+    # if not allowed_ip(request):
+    #     return PlainTextResponse('not allowed', status_code=403)
 
     with open('static/index.html') as f:
         html = f.read()
@@ -42,25 +42,25 @@ async def static_zones(_request):
 
 
 async def static_zone_entry(request):
-    if not allowed_ip(request):
-        return PlainTextResponse('not allowed', status_code=403)
+    # if not allowed_ip(request):
+    #     return PlainTextResponse('not allowed', status_code=403)
     return FileResponse('static/js/zone-entry.js')
 
 
 async def static_main_js(request):
-    if not allowed_ip(request):
-        return PlainTextResponse('not allowed', status_code=403)
+    # if not allowed_ip(request):
+    #     return PlainTextResponse('not allowed', status_code=403)
     return FileResponse('static/js/main.js')
 
 async def static_css(request):
-    if not allowed_ip(request):
-        return PlainTextResponse('not allowed', status_code=403)
+    # if not allowed_ip(request):
+    #     return PlainTextResponse('not allowed', status_code=403)
     return FileResponse('static/css/style.css')
 
 
 async def save_zones(request):
-    if not allowed_ip(request):
-        return PlainTextResponse('not allowed', status_code=403)
+    # if not allowed_ip(request):
+    #     return PlainTextResponse('not allowed', status_code=403)
 
     geo_json = await request.json()
     with open("/data/polygonal_zones/zones.json", 'w') as f:

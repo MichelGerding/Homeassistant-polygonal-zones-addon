@@ -13,27 +13,25 @@ function generate_map(zones_url) {
 
     fetch(zones_url)
         .then(response => {
-            console.log(response)
             return response.text()
         }).then(json => {
-            console.log(json)
-            let data = JSON.parse(json)
+        let data = JSON.parse(json)
 
-            L.geoJSON(data, {
-                onEachFeature: (feature, layer) => {
-                    layer.bindPopup(feature.properties.name);
-                    editableLayers.addLayer(layer);
-                },
-            })
+        L.geoJSON(data, {
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(feature.properties.name);
+                editableLayers.addLayer(layer);
+            },
+        })
 
-            render_zone_list();
-            // fit the map to the bounds of the editable layers
-            // center map on the home zone
-            if (editableLayers.getLayers().length > 0) {
-                map.fitBounds(editableLayers.getBounds());
-                map.setView(editableLayers.getBounds().getCenter(), 13);
-            }
-        });
+        render_zone_list();
+        // fit the map to the bounds of the editable layers
+        // center map on the home zone
+        if (editableLayers.getLayers().length > 0) {
+            map.fitBounds(editableLayers.getBounds());
+            map.setView(editableLayers.getBounds().getCenter(), 13);
+        }
+    });
 
     return {map, editableLayers};
 }
@@ -94,7 +92,11 @@ function setup_editing(map, editableLayers) {
                 name: name
             }
         };
+
+        console.log(layer)
         editableLayers.addLayer(layer);
+        // log the geojson
+        console.log(layer.toGeoJSON());
         render_zone_list();
     });
 }
@@ -132,8 +134,22 @@ function render_zone_list() {
 }
 
 function save_zones() {
-    let geojson = editableLayers.toGeoJSON();
-    console.log(JSON.stringify(geojson));
+    let geojson = {
+        type: "FeatureCollection",
+        features: Object.values(editableLayers._layers).map(value => {
+            points = value._latlngs[0].map(point => [point.lng, point.lat]);
+            return {
+                type: "Feature",
+                properties: {
+                    name: value.feature.properties.name
+                },
+                geometry: {
+                    type: "Polygon",
+                    coordinates: [points]
+                }
+            }
+        })
+    };
 
     fetch('./save_zones', {
         method: 'POST',

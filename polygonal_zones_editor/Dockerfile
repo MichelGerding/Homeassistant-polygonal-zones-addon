@@ -1,5 +1,5 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM
+#ARG BUILD_FROM
+FROM alpine:latest
 
 RUN \
   apk add --no-cache \
