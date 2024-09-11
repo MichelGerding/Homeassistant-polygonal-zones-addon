@@ -52,6 +52,11 @@ async def static_main_js(request):
         return PlainTextResponse('not allowed', status_code=403)
     return FileResponse('static/js/main.js')
 
+async def static_css(request):
+    if not allowed_ip(request):
+        return PlainTextResponse('not allowed', status_code=403)
+    return FileResponse('static/css/style.css')
+
 
 async def save_zones(request):
     if not allowed_ip(request):
@@ -67,7 +72,8 @@ async def save_zones(request):
 app = Starlette(debug=True, routes=[
     Route('/', static_index),
     Route('/zones.json', static_zones),
-    Route('/zone-entry.js', static_zone_entry),
-    Route('/main.js', static_main_js),
+    Route('/js/zone-entry.js', static_zone_entry),
+    Route('/js/main.js', static_main_js),
+    Route('/css/style.css', static_css),
     Route('/save_zones', save_zones, methods=['POST']),
 ])
