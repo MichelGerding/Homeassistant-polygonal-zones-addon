@@ -1,6 +1,28 @@
 const {map, editableLayers} = generate_map('./zones.json')
 setup_editing(map, editableLayers);
 
+function create_load_btn() {
+    let load_text = document.createElement('p');
+    load_text.innerHTML = 'You can also load bulk zones from a geojson file by clicking the load button.';
+    load_text.id = 'load-text';
+    document.querySelector('.header').appendChild(load_text);
+
+    let load_btn = document.createElement('button');
+    load_btn.classList.add('btn');
+    load_btn.id = 'load-btn';
+    load_btn.innerHTML = 'Load bulk json';
+    load_btn.addEventListener('click', function () {
+        load_bulk_json();
+    });
+
+    document.querySelector('.header').appendChild(load_btn);
+}
+
+function delete_load_btn() {
+    document.querySelector('#load-btn').remove();
+    document.querySelector('#load-text').remove();
+
+}
 
 function generate_map(zones_url) {
     const osm_url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -30,6 +52,8 @@ function generate_map(zones_url) {
         if (editableLayers.getLayers().length > 0) {
             map.fitBounds(editableLayers.getBounds());
             map.setView(editableLayers.getBounds().getCenter(), 13);
+        } else {
+            create_load_btn();
         }
     });
 
@@ -75,6 +99,10 @@ function setup_editing(map, editableLayers) {
             editableLayers.removeLayer(layer);
             render_zone_list();
         });
+
+        if (editableLayers.getLayers().length === 0) {
+            create_load_btn();
+        }
     });
 
     map.on('draw:created', function (e) {
@@ -98,6 +126,8 @@ function setup_editing(map, editableLayers) {
         // log the geojson
         console.log(layer.toGeoJSON());
         render_zone_list();
+
+        delete_load_btn();
     });
 }
 
@@ -194,6 +224,12 @@ function load_bulk_json() {
             })
             map.fitBounds(editableLayers.getBounds());
             render_zone_list();
+            if (editableLayers.getLayers().length > 0) {
+                map.fitBounds(editableLayers.getBounds());
+                map.setView(editableLayers.getBounds().getCenter(), 13);
+
+                delete_load_btn();
+            }
         };
         reader.readAsText(file);
     });
