@@ -1,6 +1,6 @@
 name: "Polygonal Zones"
 description: "Helper Add-on for the polygonal zones integration."
-version: "1.0.10"
+version: "0.0.1"
 slug: "polygonal_zones"
 init: false
 arch:

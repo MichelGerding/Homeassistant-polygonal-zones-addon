@@ -31,7 +31,7 @@ async def static_index(request):
     if not allowed_ip(request):
         return PlainTextResponse('not allowed', status_code=403)
 
-    with open('./static/index.html') as f:
+    with open('static/index.html') as f:
         html = f.read()
     return HTMLResponse(html)
 
@@ -44,13 +44,13 @@ async def static_zones(_request):
 async def static_zone_entry(request):
     if not allowed_ip(request):
         return PlainTextResponse('not allowed', status_code=403)
-    return FileResponse('./static/zone-entry.js')
+    return FileResponse('static/js/zone-entry.js')
 
 
 async def static_main_js(request):
     if not allowed_ip(request):
         return PlainTextResponse('not allowed', status_code=403)
-    return FileResponse('./static/main.js')
+    return FileResponse('static/js/main.js')
 
 
 async def save_zones(request):
