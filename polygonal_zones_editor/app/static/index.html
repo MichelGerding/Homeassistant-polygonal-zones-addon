@@ -36,12 +36,17 @@
                 Once you have finished editing the zones you can press the save button on the bottom of the page to save
                 the changes.
             </p>
+            <p> You can also load bulk zones from a geojson file by clicking the load button. </p>
+            <button class="btn" onclick="load_bulk_json()">
+                Load bulk json
+            </button>
+
         </div>
         <div class="center">
             <h2> Zones </h2>
             <div class="zone-list"></div>
         </div>
-        <button class="save-btn" onclick="save_zones()">
+        <button class="save-btn btn" onclick="save_zones()">
             Save
         </button>
 

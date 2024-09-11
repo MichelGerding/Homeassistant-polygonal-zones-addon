@@ -1,11 +1,9 @@
 import json
-
-from starlette.applications import Starlette
-from starlette.responses import JSONResponse, HTMLResponse, FileResponse, PlainTextResponse
-from starlette.routing import Route
-
 import os
 
+from starlette.applications import Starlette
+from starlette.responses import JSONResponse, HTMLResponse, FileResponse
+from starlette.routing import Route
 
 
 def ensure_file_exists(file_path, default_data):
@@ -20,12 +18,15 @@ def ensure_file_exists(file_path, default_data):
         with open(file_path + "zones.json", 'w') as f:
             json.dump(default_data, f)
 
+
 ensure_file_exists("/data/polygonal_zones/", {
-    "type":"FeatureCollection","features":[]
+    "type": "FeatureCollection", "features": []
 })
+
 
 def allowed_ip(request) -> bool:
     return request.client.host == '172.30.32.2'
+
 
 async def static_index(request):
     # if not allowed_ip(request):
@@ -51,6 +52,7 @@ async def static_main_js(request):
     # if not allowed_ip(request):
     #     return PlainTextResponse('not allowed', status_code=403)
     return FileResponse('static/js/main.js')
+
 
 async def static_css(request):
     # if not allowed_ip(request):

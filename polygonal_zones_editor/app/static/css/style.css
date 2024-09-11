@@ -35,7 +35,7 @@ body {
 }
 
 
-.save-btn {
+.btn {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
@@ -58,7 +58,7 @@ body {
 }
 
 .center {
-    height: min(100%, calc(100vh - 20px - 280px - 43px - 20px));
+    height: min(100%, calc(100vh - 477px));
 }
 
 .center h2 {

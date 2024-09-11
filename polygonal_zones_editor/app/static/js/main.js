@@ -173,3 +173,29 @@ function save_zones() {
         }, 2000)
     })
 }
+
+
+function load_bulk_json() {
+    // open a file dialog
+    let input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.addEventListener('change', function () {
+        let file = input.files[0];
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            let data = JSON.parse(e.target.result);
+            editableLayers.clearLayers();
+            L.geoJSON(data, {
+                onEachFeature: (feature, layer) => {
+                    layer.bindPopup(feature.properties.name);
+                    editableLayers.addLayer(layer);
+                },
+            })
+            map.fitBounds(editableLayers.getBounds());
+            render_zone_list();
+        };
+        reader.readAsText(file);
+    });
+    input.click();
+}
