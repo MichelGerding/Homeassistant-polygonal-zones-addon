@@ -20,4 +20,4 @@ EXPOSE 8000
 COPY app/static/zones.json /data/polygonal_zones/zones.json
 
 WORKDIR /app
-CMD ["python", "main.py", "-a"]
+CMD ["python", "main.py"]

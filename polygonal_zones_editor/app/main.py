@@ -35,7 +35,7 @@ def get_file_list(path: str) -> list[str]:
     return files
 
 
-def allow_all_ips(options) -> bool:
+def allow_all_ips(options: dict) -> bool:
     return '--allow-all-ips' in sys.argv or '-a' in sys.argv or options.get('allow_all_ips', False)
 
 
@@ -144,7 +144,7 @@ if __name__ == '__main__':
 
     options = load_options()
     _LOGGER.info("Loaded options: %s", options)
-    _LOGGER.error("Allowed ips: %s", allow_all_ips(options))
+    _LOGGER.error("Allow all ips: %s", allow_all_ips(options))
 
     routes = generate_static_file_routes('static/', options=options)
     routes.append(Route('/save_zones', save_zones, methods=['POST']))
