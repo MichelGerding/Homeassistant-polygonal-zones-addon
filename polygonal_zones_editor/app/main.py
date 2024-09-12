@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import logging
 
 import uvicorn
 from starlette.applications import Starlette
@@ -8,9 +9,22 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, FileResponse, PlainTextResponse
 from starlette.routing import Route
 
+
+def init_logging() -> logging.Logger:
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter('[%(levelname)s: %(asctime)s]: %(message)s')
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    return logger
+
+
 OPTIONS_FILE = "/data/options.json"
 DATA_FOLDER = "/data/polygonal_zones/"
 ZONES_FILE = f"{DATA_FOLDER}/zones.json"
+
+_LOGGER = init_logging()
 
 
 def get_file_list(path: str) -> list[str]:
@@ -57,6 +71,7 @@ def generate_static_file_routes(static_folder, prefix='/', options: dict = None)
 
     def static_file_route(request: Request) -> FileResponse | PlainTextResponse:
         if not allow_request(options, request):
+            _LOGGER.warning("Blocked request from %s on %s", request.client.host, request.url.path)
             return PlainTextResponse('not allowed', status_code=403)
 
         # we are allowed to serve the file to this client
@@ -78,7 +93,6 @@ def generate_static_file_routes(static_folder, prefix='/', options: dict = None)
         route_names[i] = path
 
     route_names.remove('zones.json')
-    print(route_names)
     return [
         Route(prefix + static_file, static_file_route, methods=['GET'])
         for static_file in route_names
@@ -88,11 +102,13 @@ def generate_static_file_routes(static_folder, prefix='/', options: dict = None)
 async def save_zones(request: Request) -> PlainTextResponse | JSONResponse:
     """Saves the zones.json file."""
     if not allow_request(options, request):
+        _LOGGER.warning("Blocked request from %s on %s", request.client.host, request.url.path)
         return PlainTextResponse('not allowed', status_code=403)
 
     geo_json = await request.json()
     with open(ZONES_FILE, 'w') as f:
         json.dump(geo_json, f)
+        _LOGGER.info("Saved zones.json")
 
     return JSONResponse({'status': 'ok'})
 
@@ -126,12 +142,23 @@ if __name__ == '__main__':
             json.dump({"type": "FeatureCollection", "features": []}, f)
 
     options = load_options()
+    _LOGGER.info("Loaded options: %s", options)
 
     routes = generate_static_file_routes('static/', options=options)
-    # remove zones.json from the routes
-
     routes.append(Route('/save_zones', save_zones, methods=['POST']))
     routes.append(Route('/zones.json', zones_json, methods=['GET']))
 
+    log_config = uvicorn.config.LOGGING_CONFIG
+    # disable logging
+    log_config['version'] = 1
+    log_config['disable_existing_loggers'] = False
+    log_config['loggers']['uvicorn.error']['handlers'] = []
+    log_config['loggers']['uvicorn.access']['handlers'] = []
+
     app = Starlette(debug=True, routes=routes)
-    uvicorn.run(app, host='0.0.0.0', port=8000)
+    uvicorn.run(
+        app,
+        host='0.0.0.0',
+        port=8000,
+        log_config=log_config,
+    )
