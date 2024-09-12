@@ -21,9 +21,16 @@ def get_file_list(path: str) -> list[str]:
     return files
 
 
-allow_all_ips = lambda options: ('--allow-all-ips' in sys.argv or '-a' in sys.argv) or options.get('allow_all_ips',
-                                                                                                   False)
-allow_request = lambda options, request: (not allow_all_ips(options)) and (request.client.host != '172.30.32.2')
+def allow_all_ips(options) -> bool:
+    return '--allow-all-ips' in sys.argv or '-a' in sys.argv or options.get('allow_all_ips', False)
+
+
+def allowed_ip(request) -> bool:
+    return request.client.host == '172.30.32.2'
+
+
+def allow_request(options, request) -> bool:
+    return allow_all_ips(options) or allowed_ip(request)
 
 
 def generate_static_file_routes(static_folder, prefix='/', options: dict = None):
