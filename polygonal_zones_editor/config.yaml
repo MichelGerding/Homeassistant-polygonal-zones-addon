@@ -1,6 +1,6 @@
 name: "Polygonal Zones"
 description: "Helper Add-on for the polygonal zones integration."
-version: "0.1.1"
+version: "0.1.2"
 slug: "polygonal_zones"
 panel_icon: "mdi:map"
 
