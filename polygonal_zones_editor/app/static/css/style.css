@@ -32,6 +32,9 @@ body {
 
     padding: 10px 20px;
     max-height: 100vh;
+
+    overflow-y: scroll;
+
 }
 
 
@@ -48,30 +51,6 @@ body {
     border: none;
 }
 
-.sub-title {
-    font-size: 1.2em;
-    margin-top: 0;
-}
-
-.title {
-    margin-bottom: 0;
-}
-
-.center {
-    height: min(100%, calc(100vh - 477px));
-}
-
-.center h2 {
-    font-size: 1.5em;
-    margin-top: 20px;
-    margin-bottom: 20px;
-
-}
-
-.center .zone-list {
-    overflow-y: scroll;
-    height: calc(100% - 40px - 3em);
-}
 
 .save-btn {
     transition: 0.3s;
@@ -83,5 +62,26 @@ body {
 
 .save-btn.error {
     background-color: red !important;
+}
+
+
+.sub-title {
+    font-size: 1.2em;
+    margin-top: 0;
+}
+
+.title {
+    margin-bottom: 0;
+}
+
+.center h2 {
+    font-size: 1.5em;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}
+
+.center {
+    flex-grow: 1;
 }
 
