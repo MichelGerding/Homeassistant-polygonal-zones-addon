@@ -69,6 +69,7 @@ def generate_static_file_routes(static_folder, prefix='/', options: dict = None)
     if options is None:
         options = {}
 
+
     def static_file_route(request: Request) -> FileResponse | PlainTextResponse:
         if not allow_request(options, request):
             _LOGGER.warning("Blocked request from %s on %s", request.client.host, request.url.path)
@@ -143,6 +144,7 @@ if __name__ == '__main__':
 
     options = load_options()
     _LOGGER.info("Loaded options: %s", options)
+    _LOGGER.error("Allowed ips: %s", allow_all_ips(options))
 
     routes = generate_static_file_routes('static/', options=options)
     routes.append(Route('/save_zones', save_zones, methods=['POST']))
