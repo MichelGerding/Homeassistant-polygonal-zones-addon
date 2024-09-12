@@ -16,3 +16,8 @@ ingress: true
 ingress_port: 8000
 ports:
   8000/tcp: 8000
+
+options:
+  allow_all_ips: false
+schema:
+  allow_all_ips: bool
