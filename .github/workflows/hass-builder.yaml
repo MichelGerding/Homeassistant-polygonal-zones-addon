@@ -16,7 +16,7 @@ jobs:
 
       - name: Move addon files to root
         run: |
-          mv addon/polygonal_zones_editor/* .
+          mv polygonal_zones_editor/* .
           rm -rf addon
 
       - name: Login to DockerHub
