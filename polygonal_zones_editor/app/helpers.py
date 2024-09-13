@@ -5,7 +5,7 @@ import sys
 
 from starlette.requests import Request
 
-from polygonal_zones_editor.app.const import ALLOWED_IPS, OPTIONS_FILE
+from const import ALLOWED_IPS, OPTIONS_FILE
 
 
 def init_logging() -> logging.Logger:

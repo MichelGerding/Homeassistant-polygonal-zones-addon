@@ -8,7 +8,7 @@ from starlette.responses import JSONResponse, FileResponse, PlainTextResponse
 from starlette.routing import Route
 
 from helpers import init_logging, allow_request, allow_all_ips, load_options, get_file_list
-from polygonal_zones_editor.app.const import DATA_FOLDER, ZONES_FILE
+from const import DATA_FOLDER, ZONES_FILE
 
 _LOGGER = init_logging()
 
