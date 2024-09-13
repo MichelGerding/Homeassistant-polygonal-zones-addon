@@ -17,7 +17,7 @@ WORKDIR /app
 COPY app /app
 EXPOSE 8000
 
-COPY ./app/static/zones.json /data/polygonal_zones/zones.json
+COPY polygonal_zones_editor/app/static/zones.json /data/polygonal_zones/zones.json
 
 WORKDIR /app
 CMD ["python", "main.py"]
