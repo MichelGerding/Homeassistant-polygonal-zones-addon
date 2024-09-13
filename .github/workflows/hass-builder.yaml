@@ -11,7 +11,8 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
         with:
-          path: polygonal-zones-editor
+          sparse-checkout: |
+            polygonal_zones_editor
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
