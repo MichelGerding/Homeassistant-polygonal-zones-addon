@@ -28,3 +28,5 @@ jobs:
           push: true
           tags: michelgerding/polygonal-zones-editor:latest
           file: ./polygonal_zones_editor/Dockerfile
+          build-args: |
+            BUILD_FROM=alpine:latest
