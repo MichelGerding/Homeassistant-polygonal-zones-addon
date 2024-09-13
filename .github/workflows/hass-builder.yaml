@@ -11,8 +11,13 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
         with:
-          sparse-checkout: |
-            polygonal_zones_editor
+          sparse-checkout: 'polygonal_zones_editor'
+          sparse-checkout-cone-mode: false
+
+      - name: Move addon files to root
+        run: |
+          mv addon/polygonal_zones_editor/* .
+          rm -rf addon
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
