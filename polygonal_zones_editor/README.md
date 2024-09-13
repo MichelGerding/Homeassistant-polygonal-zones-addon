@@ -84,3 +84,20 @@ See the screenshots below for a better understanding of the add-on's features.
 ![Screenshot while editing a zone](../screenshots/screenshot-edit.png)
 - Delete button and its options:
 ![Screenshot of delete button](../screenshots/screenshot-delete-button.png)
+
+
+## TODO
+- [ ] Improve ui
+  - [ ] Make sidebar collapsable
+  - [ ] Make sidebar more responsive
+  - [ ] Use nicer map
+  - [ ] Add support for dark mode
+- [ ] Add more features
+  - [ ] Add functionality for multiple shaped zones
+    - [ ] Add ability to add circular zones
+    - [ ] Add ability to add polygons with holes
+    - [ ] Add ability to add zones with multiple shapes
+  - [ ] Add support for multiple zone files
+
+## Contributing
+Contributions are welcome! If you have any suggestions or improvements, please open an issue or submit a pull request.
