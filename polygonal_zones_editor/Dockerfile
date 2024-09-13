@@ -14,7 +14,7 @@ RUN \
 
 WORKDIR /app
 
-COPY app /app
+COPY polygonal_zones_editor/app /app
 EXPOSE 8000
 
 COPY polygonal_zones_editor/app/static/zones.json /data/polygonal_zones/zones.json
