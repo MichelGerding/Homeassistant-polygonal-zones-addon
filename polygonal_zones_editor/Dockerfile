@@ -1,5 +1,6 @@
 ARG BUILD_FROM
-FROM $BUILD_FROM
+#FROM $BUILD_FROM
+FROM alpine:latest
 
 RUN \
     apk update && apk upgrade
@@ -9,14 +10,17 @@ RUN \
     python3 \
     py3-pip
 
+# setup env so we can install requirements using pip instead of apk.
+# uvicorn is not available in the homeassistant alpine image.
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+RUN pip3 install --upgrade pip
 # install dependencies
-RUN \
-    pip3 install --upgrade pip && \
-    pip3 install starlette uvicorn
+
+COPY requirements.txt /app/requirements.txt
+RUN pip3 install --no-cache-dir -r /app/requirements.txt
 
 WORKDIR /app
 
