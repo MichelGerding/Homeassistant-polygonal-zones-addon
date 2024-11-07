@@ -22,4 +22,3 @@ options:
   zone_colour: purple
 schema:
   allow_all_ips: bool
-  zone_colour: string
