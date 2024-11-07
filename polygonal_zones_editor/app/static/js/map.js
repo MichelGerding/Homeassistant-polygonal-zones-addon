@@ -49,7 +49,7 @@ function setup_editing(map, editableLayers) {
                     message: '<strong>Oh snap!<strong> you can\'t draw that!'
                 },
                 shapeOptions: {
-                    color: '#bada55'
+                    color: window.ZONE_COLOUR
                 }
             },
             circle: false,

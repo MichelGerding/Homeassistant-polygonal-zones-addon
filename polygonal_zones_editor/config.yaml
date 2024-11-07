@@ -18,6 +18,7 @@ ports:
   8000/tcp: 8000
 
 options:
-  allow_all_ips: false
+  allow_all_ips: true
+  zone_colour: purple
 schema:
   allow_all_ips: bool

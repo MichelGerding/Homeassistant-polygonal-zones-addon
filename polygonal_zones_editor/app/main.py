@@ -5,7 +5,7 @@ import os
 import uvicorn
 from starlette.applications import Starlette
 from starlette.requests import Request
-from starlette.responses import JSONResponse, FileResponse, PlainTextResponse
+from starlette.responses import JSONResponse, FileResponse, PlainTextResponse, HTMLResponse
 from starlette.routing import Route
 
 from helpers import init_logging, allow_request, allow_all_ips, load_options, get_file_list
@@ -53,7 +53,7 @@ def generate_static_file_routes(static_folder, prefix='/', options: dict = None)
         path = path.replace('//', '/')
 
         if path.endswith('index.html'):
-            path = path.replace('index.html', '')
+            continue
 
         route_names[i] = path
 
@@ -78,7 +78,25 @@ def save_zones_generator(options: dict):
         return JSONResponse({'status': 'ok'})
 
     return save_zones
+def index_html_generator(options: dict, static_folder):
+    async def get_index(request: Request):
+        if not allow_request(options, request):
+            _LOGGER.warning("Blocked request from %s on %s", request.client.host, request.url.path)
+            return PlainTextResponse('not allowed', status_code=403)
 
+        # we are allowed to serve the file to this client
+        path = static_folder + str(request.url.path)
+        if path.endswith('/'):
+            path += 'index.html'
+
+        with open(path, 'r') as f:
+            content = f.read()
+            content = content.replace('{{ ZONE_COLOUR }}', f'"{options.get('ZONE_COLOUR', 'green')}"')
+
+            return HTMLResponse(content)
+
+        # return FileResponse(static_folder + path)
+    return get_index
 
 async def zones_json(_request: Request) -> JSONResponse:
     """Returns the zones.json file."""
@@ -95,6 +113,7 @@ async def zones_json(_request: Request) -> JSONResponse:
 def generate_app(options: dict) -> tuple[Starlette, dict]:
     """Returns the Starlette app."""
     routes = generate_static_file_routes('static/', options=options)
+    routes.append(Route('/', index_html_generator(options, 'static/'), methods=['GET']))
     routes.append(Route('/save_zones', save_zones_generator(options), methods=['POST']))
     routes.append(Route('/zones.json', zones_json, methods=['GET']))
 
@@ -118,7 +137,7 @@ if __name__ == '__main__':
 
     options = load_options()
     _LOGGER.info("Loaded options: %s", options)
-    _LOGGER.error("Allow all ips: %s", allow_all_ips(options))
+    _LOGGER.info("Allow all ips: %s", allow_all_ips(options))
 
     # Generate the routes for the static files and the normal endpoints.
     app, log_config = generate_app(options)
