@@ -1,6 +1,6 @@
 name: "Polygonal Zones"
 description: "Helper Add-on for the polygonal zones integration."
-version: "0.1.12"
+version: "0.1.13"
 slug: "polygonal_zones"
 panel_icon: "mdi:map"
 
@@ -22,3 +22,4 @@ options:
   zone_colour: purple
 schema:
   allow_all_ips: bool
+  zone_colour: str
