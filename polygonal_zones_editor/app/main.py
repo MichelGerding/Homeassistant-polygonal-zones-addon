@@ -91,7 +91,7 @@ def index_html_generator(options: dict, static_folder):
 
         with open(path, 'r') as f:
             content = f.read()
-            content = content.replace('{{ ZONE_COLOUR }}', f'"{options.get('ZONE_COLOUR', 'green')}"')
+            content = content.replace('{{ ZONE_COLOUR }}', f'"{options.get('zone_colour', 'green')}"')
 
             return HTMLResponse(content)
 
