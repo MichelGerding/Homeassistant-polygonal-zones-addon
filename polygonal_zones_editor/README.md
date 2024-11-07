@@ -27,8 +27,12 @@ https://github.com/MichelGerding/Homeassistant-polygonal-zones-addon.git
 
 ## Configuration
 
-This add-on has only one configuration option: the port on which the web interface is exposed. By default, this is port
-**8000**.
+This addon has just 3 configuration options: 
+- the port on which the web interface is exposed. By default, this is port **8000**.
+- If you can access the interface from all ips. By default, this is **false**
+- The colour of the newly added zones. By default, this is **purple**
+
+
 
 ## Usage
 

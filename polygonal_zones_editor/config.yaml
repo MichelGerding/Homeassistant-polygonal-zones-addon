@@ -1,6 +1,6 @@
 name: "Polygonal Zones"
 description: "Helper Add-on for the polygonal zones integration."
-version: "0.1.10"
+version: "0.1.12"
 slug: "polygonal_zones"
 panel_icon: "mdi:map"
 
@@ -18,7 +18,8 @@ ports:
   8000/tcp: 8000
 
 options:
-  allow_all_ips: true
+  allow_all_ips: false
   zone_colour: purple
 schema:
   allow_all_ips: bool
+  zone_colour: string
